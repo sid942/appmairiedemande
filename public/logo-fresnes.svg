@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 340 140" role="img" aria-label="Ville de Fresnes">
+  <!--
+    Logo "Fresnes" — recréation fidèle à la charte visuelle de la ville.
+    Couleur officielle : #046982 (teal Fresnes).
+    Police bold arrondie + ornement floral à droite.
+  -->
+  <g fill="#046982">
+    <!-- Wordmark "Fresnes" -->
+    <text
+      x="4"
+      y="94"
+      font-family="'Helvetica Neue', Helvetica, Arial, 'Segoe UI', system-ui, sans-serif"
+      font-size="108"
+      font-weight="900"
+      letter-spacing="-3"
+    >Fresnes</text>
+
+    <!-- Ornement floral (feuilles + tige qui s'enroule) -->
+    <g transform="translate(255, 56)">
+      <!-- Grande feuille supérieure -->
+      <path d="M0 22 C 4 6, 26 -2, 48 6 C 62 14, 64 32, 52 42 C 36 50, 10 46, 0 22 Z" />
+      <!-- Feuille milieu droite -->
+      <path d="M50 36 C 66 30, 82 36, 84 52 C 82 66, 68 72, 54 64 C 48 58, 48 46, 50 36 Z" />
+      <!-- Feuille basse -->
+      <path d="M30 50 C 44 50, 58 58, 56 74 C 48 84, 32 82, 26 70 C 24 62, 24 54, 30 50 Z" />
+      <!-- Tige qui s'enroule -->
+      <path
+        d="M70 64 C 80 70, 86 78, 82 84 C 78 88, 72 84, 72 78"
+        stroke="#046982"
+        stroke-width="5"
+        fill="none"
+        stroke-linecap="round"
+      />
+    </g>
+  </g>
+</svg>
