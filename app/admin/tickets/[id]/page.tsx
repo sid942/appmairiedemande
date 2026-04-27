@@ -33,7 +33,6 @@ const STATUS_ACCENT: Record<TicketStatus, { fill: string; text: string; bg: stri
 
 const NEXT_ACTION: Partial<Record<TicketStatus, { label: string; next: TicketStatus; icon: string }>> = {
   nouveau:  { label: "Prendre en charge", next: "en_cours", icon: "▶" },
-  en_cours: { label: "Transmettre",       next: "transmis", icon: "↗" },
   transmis: { label: "Marquer terminé",   next: "termine",  icon: "✓" },
 };
 
@@ -213,13 +212,22 @@ export default function TicketDetailPage() {
             </span>
           )}
 
+          {/* Imprimer */}
+          <button
+            onClick={() => window.open(`/admin/tickets/${id}/print`, "_blank")}
+            className="flex items-center gap-2 text-slate-500 hover:text-slate-800 bg-white border border-slate-200 hover:border-slate-300 text-sm font-semibold px-3 py-2 rounded-lg"
+            title="Imprimer / Exporter PDF"
+          >
+            🖨️
+          </button>
+
           {!isDone && (
             <button
               onClick={() => { setDispatchResult(null); setDispatchOpen(true); }}
               disabled={saving !== null}
               className="flex items-center gap-2 bg-fresnes-500 hover:bg-fresnes-600 text-white text-sm font-semibold px-4 py-2 rounded-lg shadow-sm disabled:opacity-60"
             >
-              📧 {ticket.dispatched_at ? "Renvoyer" : "Dispatcher"}
+              📧 {ticket.dispatched_at ? "Renvoyer par e-mail" : "Transférer par e-mail"}
             </button>
           )}
 

@@ -17,6 +17,7 @@ const NAV = [
   { href: "/admin/tickets",   icon: "≡", label: "Toutes les demandes" },
   { href: "/admin/carte",     icon: "◎", label: "Carte / Zones" },
   { href: "/admin/services",  icon: "⚙", label: "Services & Agents" },
+  { href: "/admin/rapports",  icon: "📊", label: "Rapports IA" },
 ];
 
 export default function AdminShell({ children, title, subtitle, actions }: Props) {
