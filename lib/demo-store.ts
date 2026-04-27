@@ -134,9 +134,21 @@ export function demoGetAgents(serviceId?: string): Agent[] {
   return serviceId ? agents.filter((a) => a.service_id === serviceId) : agents;
 }
 
-export function demoCreateAgent(nom: string, service_id: string): Agent {
+export function demoCreateAgent(
+  nom: string,
+  service_id: string,
+  options?: { email?: string; password?: string; phone?: string; role?: string },
+): Agent {
   const agents = demoGetAgents();
-  const agent: Agent = { id: "agt-" + genId(), nom: nom.trim(), service_id };
+  const agent: Agent = {
+    id: "agt-" + genId(),
+    nom: nom.trim(),
+    service_id,
+    email:    options?.email?.trim()    || undefined,
+    password: options?.password?.trim() || undefined,
+    phone:    options?.phone?.trim()    || undefined,
+    role:     options?.role?.trim()     || undefined,
+  };
   localStorage.setItem(KEYS.agents, JSON.stringify([...agents, agent]));
   return agent;
 }
@@ -597,6 +609,62 @@ export function demoRateTicket(
     `Citoyen a noté la résolution : ${rating}/5${comment?.trim() ? ` — « ${comment.trim()} »` : ""}`,
   );
   return hydrate([tickets[idx]])[0];
+}
+
+// ─── Auth Agent (mode démo) ───────────────────────────────────────────────
+
+export interface AgentSession {
+  agent_id: string;
+  agent_nom: string;
+  service_id: string;
+  service_nom: string;
+  email: string;
+  logged_at: string;
+}
+
+const AGENT_SESSION_KEY = "dm_agent_session";
+
+export function demoAgentLogin(email: string, password: string): AgentSession | null {
+  const agents  = demoGetAgents();
+  const services = demoGetServices();
+  const agent = agents.find(
+    (a) =>
+      a.email?.toLowerCase().trim() === email.toLowerCase().trim() &&
+      a.password === password,
+  );
+  if (!agent || !agent.email) return null;
+  const service = services.find((s) => s.id === agent.service_id);
+  const session: AgentSession = {
+    agent_id:    agent.id,
+    agent_nom:   agent.nom,
+    service_id:  agent.service_id,
+    service_nom: service?.nom ?? "Service",
+    email:       agent.email,
+    logged_at:   new Date().toISOString(),
+  };
+  if (typeof window !== "undefined") {
+    localStorage.setItem(AGENT_SESSION_KEY, JSON.stringify(session));
+  }
+  return session;
+}
+
+export function demoGetAgentSession(): AgentSession | null {
+  if (typeof window === "undefined") return null;
+  const raw = localStorage.getItem(AGENT_SESSION_KEY);
+  if (!raw) return null;
+  try { return JSON.parse(raw); } catch { return null; }
+}
+
+export function demoAgentLogout() {
+  if (typeof window === "undefined") return;
+  localStorage.removeItem(AGENT_SESSION_KEY);
+}
+
+/** Tickets assignés à un agent spécifique */
+export function demoGetAgentTickets(agentId: string): Ticket[] {
+  return demoGetTickets(undefined, undefined, undefined, undefined, {})
+    .filter((t) => t.agent_id === agentId)
+    .sort((a, b) => new Date(b.created_at).getTime() - new Date(a.created_at).getTime());
 }
 
 // ─── Auth Service (mode démo) ─────────────────────────────────────────────

@@ -64,6 +64,12 @@ export interface Agent {
   id: string;
   nom: string;
   service_id: string;
+  /** Identifiants de connexion au portail agent */
+  email?: string;
+  password?: string;
+  phone?: string;
+  /** Rôle au sein du service */
+  role?: string;
 }
 
 export interface TicketNote {
