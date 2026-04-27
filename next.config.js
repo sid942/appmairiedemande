@@ -8,10 +8,11 @@ const nextConfig = {
   async headers() {
     return [
       {
-        // Autorise /embed à être chargé dans un <iframe> depuis n'importe quel domaine
+        // Autorise /embed à être chargé dans un <iframe> depuis n'importe quel domaine.
+        // Important : on ne met PAS X-Frame-Options pour /embed (toute valeur non reconnue
+        // est traitée comme DENY par les navigateurs modernes). On utilise uniquement CSP.
         source: "/embed",
         headers: [
-          { key: "X-Frame-Options",     value: "ALLOWALL" },
           { key: "Content-Security-Policy", value: "frame-ancestors *" },
         ],
       },
